@@ -62,26 +62,3 @@ smartcart/
 └── static/style.css          # all the styling
 ```
 
-## Deploying
-
-This is set up to deploy on **Render**:
-
-1. Push this project to a GitHub repo
-2. On Render, create a new Web Service and point it at that repo
-3. Render will pick up `requirements.txt` and `Procfile` automatically
-4. Set the start command to `gunicorn app:app` if it isn't picked up
-   from the Procfile automatically
-
-One limitation worth knowing: SQLite stores everything in a single file
-on disk. On some free hosting tiers that disk resets on every redeploy,
-which would wipe the database. Fine for a demo/portfolio link; for
-something long-term, swap it for a hosted Postgres database instead.
-
-## Known limitations / next steps
-
-- `app.secret_key` is a placeholder — set a real random value (and load
-  it from an environment variable) before actually deploying
-- No password reset flow
-- One cart per browser session, not per account — fine for a single
-  self-checkout kiosk-style use, would need rework for a multi-device
-  shopping cart
