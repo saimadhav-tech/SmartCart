@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ store_name }}{% endblock %}
+{% block content %}
+    <h1>{{ store_name }}</h1>
+
+    <ul class="product-list">
+        {% for item in products %}
+            <li>{{ item.name }} — ₹{{ item.price }}</li>
+        {% else %}
+            <li>No products yet — check back soon.</li>
+        {% endfor %}
+    </ul>
+
+    <a class="btn-primary" href="{{ url_for('scan_page', store_name=store_name) }}">Scan a Product</a>
+    <a class="btn-secondary" href="{{ url_for('cart_page', store_name=store_name) }}">View Cart</a>
+{% endblock %}

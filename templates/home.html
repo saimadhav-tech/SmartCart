@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}SmartCart{% endblock %}
+{% block content %}
+    <h1>Skip the checkout line</h1>
+    <p class="tagline">Scan products as you shop, pay from your phone, walk straight out.</p>
+
+    {% if session.get('user') %}
+        <a class="btn-primary" href="{{ url_for('stores') }}">Start Shopping</a>
+    {% elif session.get('owner') %}
+        <a class="btn-primary" href="{{ url_for('owner_dashboard') }}">Go to Dashboard</a>
+    {% else %}
+        <a class="btn-primary" href="{{ url_for('signup') }}">Sign Up</a>
+        <a class="btn-secondary" href="{{ url_for('login') }}">Login</a>
+        <p class="owner-link">Own a store? <a href="{{ url_for('owner_login') }}">Login here</a></p>
+    {% endif %}
+{% endblock %}

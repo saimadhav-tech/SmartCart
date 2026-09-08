@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+    <h1>Checkout</h1>
+
+    <ul class="cart-list">
+        {% for item in cart.values() %}
+            <li>{{ item.name }} × {{ item.qty }} — ₹{{ item.price * item.qty }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2 class="total-bar">Total Amount: ₹{{ total }}</h2>
+
+    <form method="POST" action="{{ url_for('pay', store_name=store_name) }}">
+        <label class="radio-row"><input type="radio" name="payment_method" value="UPI" checked> Pay via UPI</label>
+        <label class="radio-row"><input type="radio" name="payment_method" value="Card"> Pay with Card</label>
+        <label class="radio-row"><input type="radio" name="payment_method" value="Wallet"> Pay with Wallet</label>
+        <button type="submit" class="btn-primary pay-btn">Pay Now</button>
+    </form>
+{% endblock %}

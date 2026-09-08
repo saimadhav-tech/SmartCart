@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Scan — {{ store_name }}{% endblock %}
+{% block content %}
+    <h1>Scan a Product</h1>
+    <p class="muted">{{ store_name }}</p>
+
+    <div class="scan-section">
+        <div id="reader"></div>
+
+        <p class="or-text">— or type the code —</p>
+        <form method="POST" id="manual-form">
+            <input type="text" name="code" id="code-input" placeholder="e.g. SC1001">
+            <button type="submit" class="btn-primary">Add to Cart</button>
+        </form>
+    </div>
+
+    {% if message %}<p class="scan-message">{{ message }}</p>{% endif %}
+
+    <a class="back-link" href="{{ url_for('cart_page', store_name=store_name) }}">View Cart →</a>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        // camera scanning is optional - manual entry above still works if this fails
+        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 200 });
+        scanner.render((decodedText) => {
+            document.getElementById("code-input").value = decodedText;
+            document.getElementById("manual-form").submit();
+        });
+    </script>
+{% endblock %}

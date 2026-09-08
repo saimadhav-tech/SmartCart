@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Verify Exit{% endblock %}
+{% block content %}
+    <h1>Exit Verification</h1>
+    <p class="muted">For store staff — scan a customer's receipt QR, or type the ID.</p>
+
+    <div class="scan-section">
+        <div id="reader"></div>
+
+        <p class="or-text">— or type the receipt ID —</p>
+        <form method="POST" id="manual-form">
+            <input type="text" name="receipt_id" id="receipt-input" placeholder="e.g. 4F3A9C21">
+            <button type="submit" class="btn-primary">Check</button>
+        </form>
+    </div>
+
+    {% if result %}
+        {% if result.found and not result.already_used %}
+            <div class="verify-result verify-ok">
+                ✅ Valid — Receipt #{{ result.receipt_id }} — ₹{{ result.total }} — let them through
+            </div>
+        {% elif result.found and result.already_used %}
+            <div class="verify-result verify-warn">
+                ⚠️ Already used — Receipt #{{ result.receipt_id }} was scanned before
+            </div>
+        {% else %}
+            <div class="verify-result verify-fail">❌ No matching receipt found</div>
+        {% endif %}
+    {% endif %}
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 200 });
+        scanner.render((decodedText) => {
+            document.getElementById("receipt-input").value = decodedText;
+            document.getElementById("manual-form").submit();
+        });
+    </script>
+{% endblock %}

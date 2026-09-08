@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Receipt #{{ receipt_id }}{% endblock %}
+{% block content %}
+    <div class="receipt-card">
+        <h2 class="success-text">Payment Successful!</h2>
+        <p>Receipt #{{ receipt_id }}</p>
+        <p class="muted">{{ store_name }}</p>
+
+        <ul class="cart-list">
+            {% for item in items %}
+                <li>{{ item.name }} × {{ item.qty }} — ₹{{ item.price * item.qty }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="total-bar">Total: ₹{{ total }}</h2>
+        <p class="muted">Paid via {{ payment_method }}</p>
+
+        <img src="data:image/png;base64,{{ qr_b64 }}" alt="Exit QR code">
+        <p class="scan-exit">Scan at Exit</p>
+    </div>
+
+    <a class="btn-primary" href="{{ url_for('stores') }}">Done</a>
+{% endblock %}

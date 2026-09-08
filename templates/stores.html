@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Choose a Store{% endblock %}
+{% block content %}
+    <h1>Choose a Store</h1>
+    <ul class="store-list">
+        {% for store in store_list %}
+            <li><a href="{{ url_for('store_page', store_name=store) }}">{{ store }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

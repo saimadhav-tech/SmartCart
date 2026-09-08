@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ store_name }} — Dashboard{% endblock %}
+{% block content %}
+    <h1>{{ store_name }}</h1>
+    <p class="muted">Owner Dashboard</p>
+
+    {% if message %}<p class="message">{{ message }}</p>{% endif %}
+
+    <h2>Current Products</h2>
+    <ul class="product-list">
+        {% for item in products %}
+            <li>
+                <span>{{ item.name }} — ₹{{ item.price }} (code: {{ item.code }})</span>
+                <form method="POST" action="{{ url_for('owner_delete_product', product_id=item.id) }}">
+                    <button type="submit" class="delete-btn">Remove</button>
+                </form>
+            </li>
+        {% else %}
+            <li>No products added yet.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add a Product</h2>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Product name" required>
+        <input type="number" step="0.01" name="price" placeholder="Price" required>
+        <input type="text" name="code" placeholder="Product code" required>
+        <button type="submit" class="btn-primary">Add Product</button>
+    </form>
+{% endblock %}

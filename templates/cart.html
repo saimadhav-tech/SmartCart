@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Your Cart{% endblock %}
+{% block content %}
+    <h1>Your Cart</h1>
+
+    {% if not cart %}
+        <p>Your cart is empty.</p>
+        <a class="btn-primary" href="{{ url_for('scan_page', store_name=store_name) }}">Scan a Product</a>
+    {% else %}
+        <ul class="cart-list">
+            {% for code, item in cart.items() %}
+                <li>
+                    <span>{{ item.name }} × {{ item.qty }} — ₹{{ item.price * item.qty }}</span>
+                    <span class="qty-buttons">
+                        <form method="POST" action="{{ url_for('cart_decrease', store_name=store_name) }}">
+                            <input type="hidden" name="code" value="{{ code }}">
+                            <button type="submit">-</button>
+                        </form>
+                        <form method="POST" action="{{ url_for('cart_increase', store_name=store_name) }}">
+                            <input type="hidden" name="code" value="{{ code }}">
+                            <button type="submit">+</button>
+                        </form>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="total-bar">Total: ₹{{ total }}</h2>
+
+        <a class="btn-primary" href="{{ url_for('checkout_page', store_name=store_name) }}">Proceed to Checkout</a>
+        <a class="btn-secondary" href="{{ url_for('scan_page', store_name=store_name) }}">Scan Another</a>
+    {% endif %}
+{% endblock %}

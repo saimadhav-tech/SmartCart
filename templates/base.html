@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SmartCart{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="topnav">
+        <a href="{{ url_for('home') }}" class="brand">SmartCart</a>
+        <div class="nav-links">
+            {% if session.get('user') %}
+                <a href="{{ url_for('stores') }}">Stores</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% elif session.get('owner') %}
+                <a href="{{ url_for('owner_dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('owner_logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('owner_login') }}">Store Owner</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
